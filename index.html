@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>MBarber</title>
+  <link rel="stylesheet" href="./stylee.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<header>
+  <img src="./logo.png" class="logo">
+  <h1>MBarber</h1>
+</header>
+
+<!-- PERFIL -->
+<section class="perfil">
+  <img src="./logo.png" class="avatar">
+  <div>
+    <h3>Seu Sistema 💈</h3>
+    <p>Controle total da barbearia</p>
+    <button onclick="requestNotificationPermission()">Ativar Notificações</button>
+  </div>
+</section>
+
+<nav>
+  <button onclick="showTab('dashboard')">🏠</button>
+  <button onclick="showTab('atendimentos')">✂️</button>
+  <button onclick="showTab('agenda')">📅</button>
+  <button onclick="showTab('clientes')">👥</button>
+  <button onclick="showTab('relatorio')">📊</button>
+  <button onclick="toggleTheme()">🌙</button>
+</nav>
+
+<section id="dashboard" class="tab active">
+  <h2>Dashboard</h2>
+
+  <div class="grid">
+    <div class="card">
+      💰 <span id="lucro">0</span>
+      <small>Hoje</small>
+    </div>
+
+    <div class="card">
+      👥 <span id="clientes">0</span>
+      <small>Clientes</small>
+    </div>
+  </div>
+</section>
+
+<section id="atendimentos" class="tab">
+  <h2>Novo Atendimento</h2>
+  <select id="clienteSelect"></select>
+  <input id="corte" placeholder="Corte">
+  <input id="valor" type="number" placeholder="Valor">
+  <button onclick="addAtendimento()">Salvar</button>
+
+  <ul id="listaAtendimentos"></ul>
+</section>
+
+<section id="agenda" class="tab">
+  <h2>Agenda</h2>
+  <input id="anome" placeholder="Nome">
+  <input id="telefone" placeholder="Telefone">
+  <input id="data" type="date">
+  <input id="hora" type="time">
+  <button onclick="addAgendamento()">Agendar</button>
+
+  <div id="listaAgendamentos"></div>
+</section>
+
+<section id="clientes" class="tab">
+  <h2>Clientes</h2>
+  <input id="cnome" placeholder="Nome">
+  <input id="ctelefone" placeholder="Telefone" oninput="formatPhone(this)">
+  <button onclick="addCliente()">Adicionar Cliente</button>
+  <br><br>
+  <input id="searchCliente" placeholder="Buscar cliente..." oninput="filterClientes()">
+  <div id="listaClientes"></div>
+</section>
+
+<section id="relatorio" class="tab">
+  <h2>Relatório Mensal</h2>
+
+  <input type="month" id="mesSelecionado" onchange="gerarRelatorio()">
+
+  <div class="grid">
+    <div class="card">💰 <span id="fatMes">0</span></div>
+    <div class="card">👥 <span id="clientesMes">0</span></div>
+  </div>
+
+  <canvas id="chartMes" width="400" height="200"></canvas>
+  <canvas id="chartPizza" width="400" height="200"></canvas>
+
+  <button onclick="exportarPDFDia()">PDF Dia</button>
+  <button onclick="exportarPDFMes()">PDF Mês</button>
+  <br><br>
+  <button onclick="exportarDados()">Exportar Dados</button>
+  <input type="file" id="importFile" accept=".json" onchange="importarDados()">
+  <button onclick="importarDados()">Importar Dados</button>
+</section>
+
+<!-- Modal para histórico -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle">Histórico do Cliente</h2>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
